@@ -33,7 +33,6 @@ class NotesDb {
     const integerType = 'INTEGER NOT NULL';
     const textType = 'TEXT NOT NULL';
 
-
     // creating database table with schema
     await database.execute('''
 
@@ -47,6 +46,16 @@ class NotesDb {
       )
 
 ''');
+  }
+
+  //Performing crude operation
+  //Create note
+  Future<NoteModal> createNote(NoteModal notesDb) async {
+    // getting database reference
+    final database = await instance.database;
+
+    final id = await database!.insert(tableNotes, notesDb.toJson());
+    return notesDb.copy(id: id);
   }
 
   // closing database

@@ -23,4 +23,29 @@ class NoteModal {
       required this.title,
       required this.message,
       required this.createdAt});
+
+  // creating to json method
+  Map<String, Object?> toJson() => {
+        NoteField.id: id,
+        NoteField.number: number,
+        NoteField.title: title,
+        NoteField.message: message,
+        NoteField.time: createdAt.toIso8601String(),
+      };
+
+
+  // creating a copy of our current note model
+  NoteModal copy({
+    int? id,
+    int? number,
+    String? title,
+    String? message,
+    DateTime? createdAt,
+  }) =>
+      NoteModal(
+          id: id ?? this.id,
+          title: title ?? this.title,
+          message: message ?? this.message,
+          number: number ?? this.number,
+          createdAt: createdAt ?? this.createdAt);
 }
