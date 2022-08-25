@@ -1,12 +1,13 @@
 // Note's table name
-final String tableNotes = 'notes';
+const String tableNotes = 'notes';
 
+// create column names
 class NoteField {
-  static final String id = '_id';
-  static final String number = 'number';
-  static final String title = 'title';
-  static final String message = 'message';
-  static final String time = 'time';
+  static const String id = '_id';
+  static const String number = 'number';
+  static const String title = 'title';
+  static const String message = 'message';
+  static const String time = 'time';
 }
 
 class NoteModal {

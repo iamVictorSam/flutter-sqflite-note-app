@@ -28,7 +28,26 @@ class NotesDb {
     return await openDatabase(path, version: 1, onCreate: _createDatabase);
   }
 
-  Future _createDatabase(Database database, int version) async {}
+  Future _createDatabase(Database database, int version) async {
+    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    const integerType = 'INTEGER NOT NULL';
+    const textType = 'TEXT NOT NULL';
+
+
+    // creating database table with schema
+    await database.execute('''
+
+      CREATE TABLE $tableNotes (
+        $NoteField.id $idType,
+        $NoteField.number $integerType,
+        $NoteField.title $textType,
+        $NoteField.message $textType,
+        $NoteField.time $textType,
+
+      )
+
+''');
+  }
 
   // closing database
   Future closeDatabase() async {
