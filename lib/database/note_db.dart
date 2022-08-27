@@ -77,6 +77,7 @@ class NotesDb {
     }
   }
 
+  // Retrieve all Notes
   Future<List<NoteModel>> retrieveAllNotes() async {
     final database = await instance.database;
 
@@ -86,6 +87,20 @@ class NotesDb {
     return result.map((x) => NoteModel.fromJson(x)).toList();
   }
 
+  // Upate Note
+  Future<int> updateNote(NoteModel noteModel) async {
+    final database = await instance.database;
+
+    return database!.update(
+      tableNotes,
+      noteModel.toJson(),
+      where: '$NoteField.id = ?',
+      whereArgs: [noteModel.id],
+    );
+  }
+
+
+  
   // closing database
   Future closeDatabase() async {
     final database = await instance.database;
