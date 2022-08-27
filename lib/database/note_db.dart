@@ -99,8 +99,17 @@ class NotesDb {
     );
   }
 
+ // Delete Note
+  Future<int> deleteNote(int id) async {
+    final database = await instance.database;
 
-  
+    return database!.delete(
+      tableNotes,
+      where: '$NoteField.id = ?',
+      whereArgs: [id],
+    );
+  }
+
   // closing database
   Future closeDatabase() async {
     final database = await instance.database;
