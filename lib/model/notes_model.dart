@@ -3,6 +3,8 @@ const String tableNotes = 'notes';
 
 // create column names
 class NoteField {
+  static final List<String> allValues = [id, number, title, message, time];
+
   static const String id = '_id';
   static const String number = 'number';
   static const String title = 'title';
@@ -10,14 +12,14 @@ class NoteField {
   static const String time = 'time';
 }
 
-class NoteModal {
+class NoteModel {
   final int? id;
   final int number;
   final String title;
   final String message;
   final DateTime createdAt;
 
-  NoteModal(
+  NoteModel(
       {this.id,
       required this.number,
       required this.title,
@@ -33,16 +35,23 @@ class NoteModal {
         NoteField.time: createdAt.toIso8601String(),
       };
 
+  static NoteModel fromJson(Map<String, Object?> json) => NoteModel(
+        id: json[NoteField.id] as int?,
+        title: json[NoteField.title] as String,
+        message: json[NoteField.message] as String,
+        number: json[NoteField.number] as int,
+        createdAt: DateTime.parse(json[NoteField.time] as String),
+      );
 
   // creating a copy of our current note model
-  NoteModal copy({
+  NoteModel copy({
     int? id,
     int? number,
     String? title,
     String? message,
     DateTime? createdAt,
   }) =>
-      NoteModal(
+      NoteModel(
           id: id ?? this.id,
           title: title ?? this.title,
           message: message ?? this.message,

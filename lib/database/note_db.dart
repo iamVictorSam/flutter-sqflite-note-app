@@ -48,14 +48,42 @@ class NotesDb {
 ''');
   }
 
-  //Performing crude operation
+  //Performing CRUDE operation
   //Create note
-  Future<NoteModal> createNote(NoteModal notesDb) async {
+  Future<NoteModel> createNote(NoteModel notesDb) async {
     // getting database reference
     final database = await instance.database;
 
     final id = await database!.insert(tableNotes, notesDb.toJson());
     return notesDb.copy(id: id);
+  }
+
+  //Read a Single Note
+  Future<NoteModel> retrieveSingleNote(int id) async {
+    final database = await instance.database;
+
+    final maps = await database!.query(
+      tableNotes,
+      columns: NoteField.allValues,
+      //This syntax prevent sql injection (data attacks)
+      where: '$NoteField.id = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return NoteModel.fromJson(maps.first);
+    } else {
+      throw Exception('id $id not found');
+    }
+  }
+
+  Future<List<NoteModel>> retrieveAllNotes() async {
+    final database = await instance.database;
+
+    const ascOrder = '${NoteField.time} ASC';
+    final result = await database!.query(tableNotes, orderBy: ascOrder);
+
+    return result.map((x) => NoteModel.fromJson(x)).toList();
   }
 
   // closing database
